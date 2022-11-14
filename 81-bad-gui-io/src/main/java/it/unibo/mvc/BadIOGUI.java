@@ -77,9 +77,8 @@ public class BadIOGUI {
         read.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                try {
-                    final Path path = FileSystems.getDefault().getPath(PATH);
-                    final BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+                final Path path = FileSystems.getDefault().getPath(PATH);
+                try (BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
                     final String line = br.readLine();
                     System.out.println(line); // NOPMD: allowed as this is required by the exercise
                 } catch (IOException e1) {
