@@ -9,7 +9,7 @@ import java.io.PrintStream;
  */
 public class Controller {
 
-    private static final String DEFAULT_PATH = System.getProperty("user.home")
+    public static final String DEFAULT_PATH = System.getProperty("user.home")
             + System.getProperty("file.separator")
             + "output.txt";
     private File file;
