@@ -1,19 +1,46 @@
 package it.unibo.mvc;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.StringTokenizer;
 
 /**
  * Encapsulates the concept of configuration.
  */
 public final class Configuration {
-
+    private static final String SEP = System.getProperty("file.separator");
+    private static final String PATH = System.getProperty("user.dir") + SEP + "src" + SEP + "main" + SEP + "resources" + SEP + "config.yml";
     private final int max; 
     private final int min;
     private final int attempts;
 
-    private Configuration(final int max, final int min, final int attempts) {
-        this.max = max;
+    private Configuration(final int min, final int max, final int attempts) {
         this.min = min;
+        this.max = max;
         this.attempts = attempts;
+    }
+
+    public Configuration() {
+        int[] values = new int[3];
+        final Path path = FileSystems.getDefault().getPath(PATH);
+        try (BufferedReader bf = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            for (int i=0; i<3; i++) {
+                StringTokenizer tokenizer = new StringTokenizer(bf.readLine(), ": ");
+                tokenizer.nextToken();
+                values[i] = Integer.parseInt(tokenizer.nextToken());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Configuration cf = new Builder().setMin(values[0]).setMax(values[1]).setAttempts(values[2]).build();
+        this.min = cf.getMin();
+        this.max = cf.getMax();
+        this.attempts = cf.getAttempts();
     }
 
     /**
@@ -107,7 +134,7 @@ public final class Configuration {
                 throw new IllegalStateException("The builder can only be used once");
             }
             consumed = true;
-            return new Configuration(max, min, attempts);
+            return new Configuration(min, max, attempts);
         }
     }
 }
