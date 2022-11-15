@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ import java.io.IOException;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame("My First Java Graphical Interface");
+    private final int PROPORTION = 5;
 
     public SimpleGUI() {
         final JPanel panel = new JPanel();
@@ -39,6 +42,12 @@ public final class SimpleGUI {
         });
         frame.add(panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        final int sw = (int) screen.getWidth();
+        final int sh = (int) screen.getHeight();
+        frame.setSize(sw / PROPORTION, sh / PROPORTION);
+        frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
 
