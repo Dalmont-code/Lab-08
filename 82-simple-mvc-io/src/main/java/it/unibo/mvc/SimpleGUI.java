@@ -20,8 +20,11 @@ import java.io.IOException;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame("My First Java Graphical Interface");
-    private final int PROPORTION = 5;
+    private static final int PROPORTION = 5;
 
+    /**
+     * Creates the GUI.
+     */
     public SimpleGUI() {
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -31,18 +34,24 @@ public final class SimpleGUI {
         panel.add(button, BorderLayout.SOUTH);
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 final Controller controller = new Controller();
                 try {
                     controller.add(text.getText());
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    e1.printStackTrace(); //NOPMD, allowed for this exercise
                 }
             }
         });
         frame.add(panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.display();
+    }
 
+    /**
+     * Sets the initial position and dimension of the frame.
+     */
+    private void display() {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
@@ -51,7 +60,11 @@ public final class SimpleGUI {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
+    /**
+     * Main method, starts a simple GUI application that lets the user edit and save a file.
+     * @param args unused
+     */
+    public static void main(final String[] args) {
         new SimpleGUI();
     }
 }

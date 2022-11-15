@@ -23,8 +23,11 @@ import java.io.IOException;
 public final class SimpleGUIWithFileChooser {
 
     private final JFrame frame = new JFrame("Simple Text Edit UI");
-    private final int PROPORTION = 5;
+    private static final int PROPORTION = 5;
 
+    /**
+     * Creates the GUI.
+     */
     public SimpleGUIWithFileChooser() {
         final Controller controller = new Controller();
         final JPanel panel = new JPanel();
@@ -44,17 +47,17 @@ public final class SimpleGUIWithFileChooser {
         panel.add(save, BorderLayout.SOUTH);
         save.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 try {
                     controller.add(text.getText());
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    e1.printStackTrace(); //NOPMD, allowed for this exercise
                 }
             }
         });
         browse.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 final JFileChooser chooser = new JFileChooser();
                 chooser.setDialogTitle("Select a file");
                 switch (chooser.showSaveDialog(frame)) {
@@ -62,25 +65,36 @@ public final class SimpleGUIWithFileChooser {
                         controller.setFile(chooser.getSelectedFile().getAbsolutePath());
                         filepath.setText(controller.getPath());
                     }
-                    case JFileChooser.CANCEL_OPTION -> {}
+                    case JFileChooser.CANCEL_OPTION -> { }
                     default -> {
                         JOptionPane.showMessageDialog(frame, "An error has occured..", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         });
-        frame.add(panel);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.frame.add(panel);
+        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.display();
+    }
 
+    /**
+     * Sets the initial position and dimension of the frame.
+     */
+    private void display() {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
-        frame.setSize(sw / PROPORTION, sh / PROPORTION);
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
+        this.frame.setSize(sw / PROPORTION, sh / PROPORTION);
+        this.frame.setLocationByPlatform(true);
+        this.frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
+    /**
+     * Main method, starts a simple GUI application that lets the user edit and save a file.
+     * It also lets the user choose which file they want to edit.
+     * @param args unused
+     */
+    public static void main(final String[] args) {
         new SimpleGUIWithFileChooser();
     }
 }
