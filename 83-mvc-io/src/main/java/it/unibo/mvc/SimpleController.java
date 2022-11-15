@@ -1,14 +1,21 @@
 package it.unibo.mvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- *
+ * This class implements a simple controller responsible of I/O access.
+ * It prints on terminal, the history doesn't check for duplicates.
  */
 public final class SimpleController implements Controller {
 
+    private List<String> history;
     private String msg;
+
+    public SimpleController() {
+        this.history = new ArrayList<>();
+        this.msg = "";
+    }
     
     @Override
     public void setString(final String msg) {
@@ -21,20 +28,21 @@ public final class SimpleController implements Controller {
 
     @Override
     public String getString() {
-        // TODO Auto-generated method stub
-        return null;
+        return new String(this.msg);
     }
 
     @Override
     public List<String> getHistory() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.history;
     }
 
     @Override
     public void print() {
-        // TODO Auto-generated method stub
-        
+        if (this.msg.isEmpty()) {
+            throw new IllegalStateException("Can't print unset message");
+        } else {
+            System.out.println(this.msg);
+            this.history.add(this.msg);
+        }
     }
-    
 }
