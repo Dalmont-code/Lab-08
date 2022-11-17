@@ -1,12 +1,17 @@
 package it.unibo.mvc;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
+    private static final String FILE = "config.yml";
     private final DrawNumber model;
     private final List<DrawNumberView> views;
 
@@ -23,8 +28,20 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
             view.setObserver(this);
             view.start();
         }
-        Configuration cf = new Configuration();
-        this.model = new DrawNumberImpl(cf.getMin(), cf.getMax(), cf.getAttempts());
+
+        int[] values = new int[3];
+        try (var bf = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(FILE)))) {
+            for (int i=0; i<3; i++) {
+                StringTokenizer tokenizer = new StringTokenizer(bf.readLine(), ": ");
+                tokenizer.nextToken();
+                values[i] = Integer.parseInt(tokenizer.nextToken());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Configuration cf = new Configuration.Builder().setMin(values[0]).setMax(values[1]).setAttempts(values[2]).build();
+        this.model = new DrawNumberImpl(cf);
     }
 
     @Override
