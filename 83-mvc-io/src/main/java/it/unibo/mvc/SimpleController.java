@@ -9,18 +9,21 @@ import java.util.List;
  */
 public final class SimpleController implements Controller {
 
-    private List<String> history;
+    private final List<String> history;
     private String msg;
 
+    /**
+     * Constructor that inizializes the controller.
+     */
     public SimpleController() {
         this.history = new ArrayList<>();
-        this.msg = "";
+        this.msg = null;
     }
-    
+
     @Override
     public void setString(final String msg) {
         if (msg == null) {
-            throw new NullPointerException("Can't set message to null");
+            throw new IllegalArgumentException("Can't set message to null");
         } else {
             this.msg = msg;
         }
@@ -28,20 +31,20 @@ public final class SimpleController implements Controller {
 
     @Override
     public String getString() {
-        return new String(this.msg);
+        return this.msg == null ? "" : this.msg;
     }
 
     @Override
     public List<String> getHistory() {
-        return this.history;
+        return List.copyOf(this.history);
     }
 
     @Override
     public void print() {
-        if (this.msg.isEmpty()) {
+        if (this.msg == null) {
             throw new IllegalStateException("Can't print unset message");
         } else {
-            System.out.println(this.msg);
+            System.out.println(this.msg); //NOPMD, required for this exercise
             this.history.add(this.msg);
         }
     }

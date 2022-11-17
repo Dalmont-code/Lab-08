@@ -21,8 +21,11 @@ import java.awt.event.ActionListener;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
-    private final int PROPORTION = 5;
+    private static final int PROPORTION = 5;
 
+    /**
+     * A constructor to set up the graphical interface.
+     */
     public SimpleGUI() {
         final Controller controller = new SimpleController();
         final JPanel panel = new JPanel();
@@ -36,14 +39,14 @@ public final class SimpleGUI {
         final JButton history = new JButton("Show History");
         print.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 controller.setString(upper.getText());
                 controller.print();
             }
         });
         history.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 text.setText(null);
                 for (final String msg : controller.getHistory()) {
                     text.append(msg + "\n");
@@ -60,6 +63,9 @@ public final class SimpleGUI {
         display();
     }
 
+    /**
+     * Method that displays the previously built GUI.
+     */
     private void display() {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
@@ -69,7 +75,11 @@ public final class SimpleGUI {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
+    /**
+     * Start the GUI.
+     * @param args unused
+     */
+    public static void main(final String[] args) {
         new SimpleGUI();
     }
 }

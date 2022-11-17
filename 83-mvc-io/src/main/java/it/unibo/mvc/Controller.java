@@ -3,7 +3,7 @@ package it.unibo.mvc;
 import java.util.List;
 
 /**
- * This is an interface for a controller
+ * This is an interface for a controller.
  */
 public interface Controller {
 
@@ -11,10 +11,9 @@ public interface Controller {
      * This method sets the current message.
      * It throws a NullPointerException if the parameter is null.
      * 
-     * @param msg
-     * @throws NullPointerException
+     * @param msg the message to set
      */
-    public void setString(String msg) throws NullPointerException;
+    void setString(String msg);
 
     /**
      * This method returns the current message.
@@ -22,7 +21,7 @@ public interface Controller {
      * 
      * @return the current message
      */
-    public String getString();
+    String getString();
 
     /**
      * This method returns the list of messages printed up to this point.
@@ -30,14 +29,12 @@ public interface Controller {
      * 
      * @return the list of printed messages
      */
-    public List<String> getHistory();
+    List<String> getHistory();
 
     /**
      * This method prints the current method.
      * If the message is unset it throws an IllegalStateException.
-     * 
-     * @throws IllegalStateException
      */
-    public void print() throws IllegalStateException;
+    void print();
 
 }
